@@ -6,10 +6,17 @@ pipeline {
     }
 
     stages {
+        stage('Debug') {
+            steps {
+                script {
+                    echo "Selected branch: ${params.BRANCH_NAME}"
+                }
+            }
+        }
+
         stage('Checkout') {
             steps {
                 script {
-                    // Checkout the specified branch
                     checkout([$class: 'GitSCM', branches: [[name: "*/${params.BRANCH_NAME}"]],
                               doGenerateSubmoduleConfigurations: false,
                               extensions: [],
