@@ -22,7 +22,7 @@ pipeline {
         stage('Run Pipeline') {
             steps {
                 script {
-                    echo "Print statement from main branch"
+                    echo "Print statement from test branch"
                 }
             }
         }
