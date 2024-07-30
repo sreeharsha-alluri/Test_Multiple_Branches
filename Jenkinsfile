@@ -6,6 +6,20 @@ pipeline {
     }
 
     stages {
+        stage('Initialize') {
+            steps {
+                script {
+                    // Populate the branch choices dynamically
+                    def branches = sh(script: 'git ls-remote --heads https://github.com/sreeharsha-alluri/Test_Multiple_Branches.git', returnStdout: true).trim().split("\n")
+                    def branchNames = branches.collect { it.split("/")[2] }
+                    def uniqueBranches = branchNames.unique().sort()
+                    
+                    // Update the choices parameter with branch names
+                    currentBuild.rawBuild.getAction(hudson.model.ParametersAction).getParameters().find { it.name == 'BRANCH_NAME' }.choices = uniqueBranches
+                }
+            }
+        }
+
         stage('Checkout') {
             steps {
                 script {
@@ -21,7 +35,7 @@ pipeline {
         stage('Load and Run Jenkinsfile') {
             steps {
                 script {
-                    echo "Print statement from main branch"
+                    echo "Print from main branch"
                 }
             }
         }
