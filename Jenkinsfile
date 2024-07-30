@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'BRANCH_NAME', choices: ['main', 'test'], description: 'Branch to fetch the Jenkinsfile from')
+        choice(name: 'BRANCH_NAME', choices: ['main', 'test'], description: 'Branch to fetch the Jenkinsfile from')
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the specified branch
                 script {
+                    // Checkout the specified branch
                     checkout([$class: 'GitSCM', branches: [[name: "*/${params.BRANCH_NAME}"]],
                               doGenerateSubmoduleConfigurations: false,
                               extensions: [],
