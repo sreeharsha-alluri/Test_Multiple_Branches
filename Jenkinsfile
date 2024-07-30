@@ -5,14 +5,18 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    checkout scm
+                    // Checkout the 'main' branch
+                    checkout([$class: 'GitSCM',
+                        branches: [[name: '*/main']],
+                        userRemoteConfigs: [[url: 'https://github.com/sreeharsha-alluri/Test_Multiple_Branches.git']]
+                    ])
                 }
             }
         }
         stage('Echo Message') {
             steps {
                 script {
-                    echo "Print from main branch"
+                    echo "Building from the main branch"
                 }
             }
         }
