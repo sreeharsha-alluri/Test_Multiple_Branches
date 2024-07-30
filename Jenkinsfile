@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch to fetch the Jenkinsfile from')
+        string(name: 'BRANCH_NAME', choices: ['main', 'test'], description: 'Branch to fetch the Jenkinsfile from')
     }
 
     stages {
