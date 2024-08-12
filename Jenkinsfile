@@ -1,28 +1,34 @@
 pipeline {
     agent any
-    parameters {
-        string(name: 'GITBRANCH', defaultValue: 'main', description: 'Branch to build')
-    }
+
     environment {
+        PLATFORM = "${params.PLATFORM}"
         GITBRANCH = "${params.GITBRANCH}"
     }
+
     stages {
         stage('Checkout') {
             steps {
-                script {
-                    // Checkout the branch specified by the parameter
-                    checkout([$class: 'GitSCM',
-                        branches: [[name: "*/${GITBRANCH}"]],
-                        userRemoteConfigs: [[url: 'https://github.com/sreeharsha-alluri/Test_Multiple_Branches.git']]
-                    ])
-                }
+                checkout changelog: false, poll: false, scm: [
+                    $class: 'GitSCM',
+                    branches: [[name: "*/${env.GITBRANCH}"]],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [[$class: 'RelativeTargetDirectory'],
+                                 [$class: 'SubmoduleOption', 
+                                  disableSubmodules: false, 
+                                  parentCredentials: true, 
+                                  recursiveSubmodules: true, 
+                                  reference: '', 
+                                  trackingSubmodules: false]],
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[url: "${params.GITREPO}"]]
+                ]
             }
         }
-        stage('Echo Message') {
+
+        stage('Build') {
             steps {
-                script {
-                    echo "Building from the test branch"
-                }
+                echo 'Running the build process from test branch'
             }
         }
     }
