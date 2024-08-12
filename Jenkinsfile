@@ -28,7 +28,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Running the build process'
+                echo 'Running the build process from main branch'
             }
         }
     }
