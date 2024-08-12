@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        PLATFORM = "${params.PLATFORM}"
         GITBRANCH = "${params.GITBRANCH}"
+        GITREPO = "${params.GITREPO}"
     }
 
     stages {
